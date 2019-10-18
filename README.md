@@ -1,5 +1,8 @@
 # Gemini Jobcoin
 
+## Go Modules
+Make sure Go Modules are on or exported `GO111MODULE=on`
+
 ## To Build Binary
 Run `make build`
 
