@@ -1,0 +1,15 @@
+#!/bin/bash
+
+EXCLUDED_PKGS=(
+    "/cmd"
+    "/api"
+    "/mocks"
+)
+
+PKGS=`go list github.com/minj131/jobcoin/... | grep -v -f <(printf '%s\n' "${EXCLUDED_PKGS[@]}")`
+
+PWD=$PWD
+
+go test -cover $PKGS
+
+exit $?

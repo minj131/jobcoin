@@ -1,0 +1,8 @@
+api:
+  baseUrl: https://jobcoin.gemini.com/unclog/api/
+  addressUrl: http://jobcoin.gemini.com/unclog/api/addresses/
+  transactionsUrl: https://jobcoin.gemini.com/unclog/api/transactions
+
+fee: 0.03
+
+adminAccount: JobcoinMixer
