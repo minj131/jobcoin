@@ -4,8 +4,6 @@ import (
 	"io/ioutil"
 
 	"github.com/pkg/errors"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"gopkg.in/yaml.v2"
 )
 
@@ -15,7 +13,6 @@ type Config struct {
 	MixerAddress  string
 	Fee           *float64 `yaml:"fee"`
 	AdminAddress  string   `yaml:"adminAccount"`
-	Logger        *zap.Logger
 }
 
 type API struct {
@@ -32,8 +29,6 @@ func New(addresses []string, mixer string) *Config {
 }
 
 func (c *Config) Init(level string) error {
-	var err error
-
 	if c.API == nil {
 		return errors.New("API config is not passed")
 	}
@@ -55,11 +50,6 @@ func (c *Config) Init(level string) error {
 		level = "debug"
 	}
 
-	c.Logger, err = setupLogging(level)
-	if err != nil {
-		return errors.Wrapf(err, "failed to set up logging")
-	}
-
 	return nil
 }
 
@@ -75,25 +65,4 @@ func (c *Config) ReadConfigFile(path string) error {
 	}
 
 	return nil
-}
-
-func setupLogging(loglevel string) (*zap.Logger, error) {
-	// set up logging
-	var level zapcore.Level
-	err := level.Set(loglevel)
-	if err != nil {
-		return nil, err
-	}
-	zapConfig := zap.NewProductionConfig()
-	zapConfig.Level = zap.NewAtomicLevelAt(level)
-	zapConfig.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
-	logger, err := zapConfig.Build()
-	defer logger.Sync()
-	if err != nil {
-		return nil, err
-	}
-	// redirect uses of standard logger
-	zap.RedirectStdLog(logger)
-
-	return logger, nil
 }

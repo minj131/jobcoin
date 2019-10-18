@@ -10,7 +10,6 @@ import (
 	"github.com/minj131/jobcoin/pkg/util"
 
 	"github.com/pkg/errors"
-	"go.uber.org/zap"
 )
 
 //go:generate go run github.com/maxbrunsfeld/counterfeiter/v6 -o mocks/api.go -fake-name API . API
@@ -22,14 +21,30 @@ type API interface {
 
 type Jobcoin struct {
 	Config *config.Config
-	Logger *zap.SugaredLogger
 	API    API
+}
+
+type AddressInfo struct {
+	Balance      string          `json:"balance"`
+	Transactions []*Transactions `json:"transactions"`
+}
+
+type Transactions struct {
+	Timestamp   string `json:"timestamp"`
+	FromAddress string `json:"fromAddress,omitempty"`
+	ToAddress   string `json:"toAddress"`
+	Amount      string `json:"amount"`
+}
+
+type PostTransactions struct {
+	From   string `json:"fromAddress"`
+	To     string `json:"toAddress"`
+	Amount string `json:"amount"`
 }
 
 func New(config *config.Config) *Jobcoin {
 	return &Jobcoin{
 		Config: config,
-		Logger: config.Logger.Sugar().Named("Jobcoin"),
 		API:    api.New(config.API.AddressUrl, config.API.TransactionsUrl),
 	}
 }
@@ -62,9 +77,14 @@ func (j *Jobcoin) Run() error {
 	return nil
 }
 
-// Poll wallet change every 10 seconds
+// Poll wallet change every 5 seconds
 func (j *Jobcoin) PollAddressForChange() (string, error) {
+	count := 0
 	for {
+		if count == 12 {
+			fmt.Println("No coins have been received after time limit.")
+			return "", errors.New("Time limit exceeded")
+		}
 		fmt.Println("Waiting for coins...")
 		time.Sleep(5 * time.Second)
 		mixerInfo, err := j.API.GetAddressInfo(j.Config.MixerAddress)
@@ -75,6 +95,8 @@ func (j *Jobcoin) PollAddressForChange() (string, error) {
 		if balance != "0" {
 			return balance, nil
 		}
+
+		count += 1
 	}
 }
 

@@ -10,7 +10,6 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"go.uber.org/zap"
 )
 
 var _ = Describe("Jobcoin", func() {
@@ -19,11 +18,9 @@ var _ = Describe("Jobcoin", func() {
 		cfg     *config.Config
 		j       *jobcoin.Jobcoin
 		mockAPI *mocks.API
-		logger  *zap.Logger
 	)
 
 	BeforeEach(func() {
-		logger, err = zap.NewProductionConfig().Build()
 		Expect(err).NotTo(HaveOccurred())
 
 		f := float64(0.01)
@@ -34,7 +31,6 @@ var _ = Describe("Jobcoin", func() {
 			MixerAddress:  "fake",
 			Fee:           &f,
 			AdminAddress:  "fake",
-			Logger:        logger,
 		}
 
 		j = jobcoin.New(cfg)
