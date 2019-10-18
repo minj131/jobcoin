@@ -1,7 +1,7 @@
 # Gemini Jobcoin
 
 ## Go Modules
-Make sure Go Modules are on or exported `GO111MODULE=on`
+Make sure Go Modules are on or exported `GO111MODULE=on` and the project is stored in `{GOPATH}/src/github.com/minj131`
 
 ## To Build Binary
 Run `make build`
