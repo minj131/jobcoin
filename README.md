@@ -5,10 +5,10 @@ Golang implementation of the Gemini coding challenge.
 ## Go Modules
 Make sure Go Modules are on or exported `GO111MODULE=on` as modules are used instead of vendoring. Check by `go env | grep MODULE`.
 
-## To Build Binary
+## To Build
 Run `make build` builds executable binary in `bin/`
 
-## To Run Binary
+## To Run
 Run `make build && bin/jobcoin` or `bin/jobcoin`
 
 ## Note
