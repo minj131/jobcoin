@@ -20,6 +20,6 @@ Run `make build && bin/jobcoin` or `bin/jobcoin`
 - Run `make unit-tests` to run unit tests.
 
 ## Limitations
-Traditionally, mixers rely on a large pool of different inputs coming from potentially different people to better anonymize the inputs and outputs. As a result, I don't have to deal with any race connditions or concurrency management that might occur when multiple people are trying to mix their coins at the same time. This could easily be solved by using a queue of some sort and is already partially fixed due to the functionality of sending all funds to the master account before distribution.
+Traditionally, mixers rely on a large pool of different inputs coming from potentially different people to better anonymize the inputs and outputs. As a result, I don't have to deal with the possible race conditions or concurrency management that might occur when multiple people are trying to mix their coins at the same time. This could easily be solved by using a queue of some sort and is already partially fixed due to the functionality of sending all funds to the master account before distribution.
 
 As for the polling function, I chose to check the state of the wallet every 5 seconds and only proceeding when we have a balance greater than 0. Since the generated wallet is a random hash of length 32, collisions are going to be extremely rare. I added a timeout to 60 seconds to prevent stalling.
