@@ -13,7 +13,7 @@ Run `make build && bin/jobcoin` or `bin/jobcoin`
 
 ## Note
 - Go version >= 1.12
-- Make sure your go environment is configured correctly, if errors occur when building there might be an issue with the `GOPATH`. Either reset your `GOPATH` or reinstall `golang` to fix any possible version issues.
+- Make sure your go environment is configured correctly, if errors occur when building there might be an issue with the `GOPATH`. Either reset your `GOPATH` or reinstall Go version >= 1.12 to fix any possible version issues.
 - Make sure go modules are on `GO111MODULE=on` or prefix `GO111MODULE=on` to `make build` or `make unit-tests`.
 
 ## Tests
